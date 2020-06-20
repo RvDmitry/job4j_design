@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Class MatrixIt
+ * Класс реализует шаблон итератор для двухмерного массива.
  * @author Dmitry Razumov
  * @version 1
  */
@@ -23,7 +24,7 @@ public class MatrixIt implements Iterator<Integer> {
     private int column = 0;
 
     /**
-     * Конструктор инициализирует массива данных.
+     * Конструктор инициализирует массив данных.
      * @param data Массив данных.
      */
     public MatrixIt(int[][] data) {
