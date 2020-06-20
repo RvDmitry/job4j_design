@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Class EvenIt
- * Класс реализует шаблон, возвращая только четные числа.
+ * Класс реализует шаблон итератор, возвращая только четные числа.
  * @author Dmitry Razumov
  * @version 1
  */
