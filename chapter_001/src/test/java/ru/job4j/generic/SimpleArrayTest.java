@@ -2,7 +2,9 @@ package ru.job4j.generic;
 
 import org.junit.Test;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -92,5 +94,37 @@ public class SimpleArrayTest {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(4));
         assertThat(it.hasNext(), is(false));
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenIteratorException() {
+        SimpleArray<Integer> simple = new SimpleArray<>(10);
+        simple.add(1);
+        simple.add(2);
+        Iterator<Integer> it = simple.iterator();
+        assertThat(it.next(), is(1));
+        assertThat(it.next(), is(2));
+        it.next();
+    }
+
+    @Test
+    public void whenCount() {
+        SimpleArray<Integer> simple = new SimpleArray<>(10);
+        simple.add(1);
+        simple.add(2);
+        simple.set(1, 5);
+        simple.remove(0);
+        assertThat(simple.getModCount(), is(4));
+    }
+
+    @Test(expected = ConcurrentModificationException.class)
+    public void whenCollectionChangeThenIteratorException() {
+        SimpleArray<Integer> simple = new SimpleArray<>(10);
+        simple.add(1);
+        simple.add(2);
+        Iterator<Integer> it = simple.iterator();
+        it.next();
+        simple.add(3);
+        it.next();
     }
 }

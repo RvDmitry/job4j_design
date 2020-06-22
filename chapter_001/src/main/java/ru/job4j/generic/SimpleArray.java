@@ -16,7 +16,11 @@ public class SimpleArray<T> implements Iterable<T> {
     /**
      * Поле характеризует количество элементов в массиве.
      */
-    private int index = 0;
+    private int index;
+    /**
+     * Счетчик ведет подсчет количества модификаций коллекции.
+     */
+    private int modCount;
 
     /**
      * Конструтор создает массив с заданным размером.
@@ -27,11 +31,20 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     /**
+     * Метод возвращает счетчик количества модификаций коллекции.
+     * @return Счетчик
+     */
+    public int getModCount() {
+        return modCount;
+    }
+
+    /**
      * Метод добавляет элемент в массив.
      * @param value Элемент
      */
     public void add(T value) {
         objects[index++] = value;
+        modCount++;
     }
 
     /**
@@ -41,6 +54,7 @@ public class SimpleArray<T> implements Iterable<T> {
      */
     public void set(int position, T value) {
         objects[Objects.checkIndex(position, index)] = value;
+        modCount++;
     }
 
     /**
@@ -52,6 +66,8 @@ public class SimpleArray<T> implements Iterable<T> {
         Objects.checkIndex(position, index);
         System.arraycopy(objects, position + 1, objects, position, index - 1 - position);
         objects[index - 1] = null;
+        index--;
+        modCount++;
     }
 
     /**
@@ -72,9 +88,13 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int point = 0;
+            private final int count = modCount;
 
             @Override
             public boolean hasNext() {
+                if (modCount != count) {
+                    throw new ConcurrentModificationException();
+                }
                 return point < index;
             }
 
