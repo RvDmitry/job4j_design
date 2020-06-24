@@ -35,11 +35,10 @@ public final class MemStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean replace(String id, T model) {
-        for (int i = 0; i < mem.size(); i++) {
-            if (mem.get(i).getId().equals(id)) {
-                mem.set(i, model);
-                return true;
-            }
+        int index = findIndex(id);
+        if (index != -1) {
+            mem.set(index, model);
+            return true;
         }
         return false;
     }
@@ -52,11 +51,10 @@ public final class MemStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean delete(String id) {
-        for (int i = 0; i < mem.size(); i++) {
-            if (mem.get(i).getId().equals(id)) {
-                mem.remove(i);
-                return true;
-            }
+        int index = findIndex(id);
+        if (index != -1) {
+            mem.remove(index);
+            return true;
         }
         return false;
     }
@@ -71,5 +69,19 @@ public final class MemStore<T extends Base> implements Store<T> {
     public T findById(String id) {
         return mem.stream().filter(o -> o.getId().equals(id))
                 .findFirst().orElse(null);
+    }
+
+    /**
+     * Метод осуществляет поиск индекса объекта в коллекции по его id.
+     * @param id Идентификационный номер объекта
+     * @return Индекс объекта в коллекции
+     */
+    private int findIndex(String id) {
+        for (int i = 0; i < mem.size(); i++) {
+            if (mem.get(i).getId().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
