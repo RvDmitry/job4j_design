@@ -54,6 +54,12 @@ public class MemStoreTest {
     }
 
     @Test
+    public void whenDeleteAndFindThenNull() {
+        store.delete("333");
+        assertNull(store.findById("333"));
+    }
+
+    @Test
     public void whenReplace() {
         User user4 = new User("444");
         user4.setName("User 4");
