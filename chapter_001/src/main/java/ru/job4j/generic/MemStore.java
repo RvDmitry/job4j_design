@@ -35,11 +35,11 @@ public final class MemStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean replace(String id, T model) {
-        var item = mem.stream().filter(o -> o.getId().equals(id)).findFirst();
-        if (item.isPresent()) {
-            int index = mem.indexOf(item.get());
-            mem.set(index, model);
-            return true;
+        for (int i = 0; i < mem.size(); i++) {
+            if (mem.get(i).getId().equals(id)) {
+                mem.set(i, model);
+                return true;
+            }
         }
         return false;
     }
