@@ -21,11 +21,11 @@ public class MemStoreTest {
     public void setUp() {
         store = new MemStore<>();
         User user1 = new User("111");
-        user1.setName("User1");
+        user1.setName("User 1");
         User user2 = new User("222");
-        user2.setName("User2");
+        user2.setName("User 2");
         User user3 = new User("333");
-        user3.setName("User3");
+        user3.setName("User 3");
         store.add(user1);
         store.add(user2);
         store.add(user3);
@@ -34,7 +34,7 @@ public class MemStoreTest {
     @Test
     public void whenFindById() {
         User result = store.findById("222");
-        assertThat(result.getName(), is("User2"));
+        assertThat(result.getName(), is("User 2"));
     }
 
     @Test
@@ -56,9 +56,16 @@ public class MemStoreTest {
     @Test
     public void whenReplace() {
         User user4 = new User("444");
-        user4.setName("User4");
+        user4.setName("User 4");
         store.replace("222", user4);
-        assertThat(store.findById("444").getName(), is("User4"));
+        assertThat(store.findById("444").getName(), is("User 4"));
         assertNull(store.findById("222"));
+    }
+
+    @Test
+    public void whenReplaceWrongIdThenFalse() {
+        User user4 = new User("444");
+        user4.setName("User 4");
+        assertFalse(store.replace("22", user4));
     }
 }
