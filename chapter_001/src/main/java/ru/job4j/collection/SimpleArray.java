@@ -50,15 +50,20 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model Элемент
      */
     public void add(T model) {
-        if (index < objects.length) {
-            objects[index++] = model;
-        } else {
-            Object[] temp = new  Object[objects.length * 2];
-            System.arraycopy(objects, 0, temp, 0, objects.length);
-            objects = temp;
-            objects[index++] = model;
+        if (index == objects.length) {
+            increase();
         }
+        objects[index++] = model;
         modCount++;
+    }
+
+    /**
+     * Метод увеличивает размер массива при его полном заполнении.
+     */
+    private void increase() {
+        Object[] temp = new  Object[objects.length * 2];
+        System.arraycopy(objects, 0, temp, 0, objects.length);
+        objects = temp;
     }
 
     /**

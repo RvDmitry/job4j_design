@@ -63,7 +63,7 @@ public class SimpleArrayTest {
     }
 
     @Test
-    public void whenAdd11ItemsThenGet() {
+    public void whenAdd11ItemsThenIncreaseArray() {
         SimpleArray<Integer> array = new SimpleArray<>();
         array.add(1);
         array.add(2);
