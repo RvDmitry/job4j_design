@@ -81,7 +81,7 @@ public class SimpleLinked<E> implements Iterable<E> {
     public E get(int index) {
         Objects.checkIndex(index, size);
         Node<E> rsl = first;
-        if (index == size) {
+        if (index == size - 1) {
             return last.item;
         }
         for (int i = 0; i != index; i++) {

@@ -1,6 +1,7 @@
 package ru.job4j.collection;
 
 import org.hamcrest.core.Is;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
@@ -18,31 +19,35 @@ import static org.junit.Assert.*;
  */
 public class SimpleLinkedTest {
 
-    @Test
-    public void whenAdd() {
-        SimpleLinked<String> list = new SimpleLinked<>();
+    private SimpleLinked<String> list;
+
+    @Before
+    public void setUp() {
+        list = new SimpleLinked<>();
         list.add("A");
         list.add("B");
         list.add("C");
-        assertThat(list.getSize(), is(3));
+        list.add("D");
+    }
+
+    @Test
+    public void whenAdd() {
+        assertThat(list.getSize(), is(4));
     }
 
     @Test
     public void whenGet() {
-        SimpleLinked<String> list = new SimpleLinked<>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
         assertThat(list.get(1), is("B"));
+    }
+
+    @Test
+    public void whenGetLastIndex() {
+        assertThat(list.get(3), is("D"));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void whenGetWrongIndexThenException() {
-        SimpleLinked<String> list = new SimpleLinked<>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
-        list.get(3);
+        list.get(4);
     }
 
     @Test
