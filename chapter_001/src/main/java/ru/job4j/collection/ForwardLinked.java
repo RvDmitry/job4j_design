@@ -35,11 +35,13 @@ public class ForwardLinked<T> implements Iterable<T> {
     /**
      * Метод удаляет первый элемент из списка.
      */
-    public void deleteFirst() {
+    public T deleteFirst() {
         if (head == null) {
             throw new NoSuchElementException();
         }
+        T value = head.value;
         head = head.next;
+        return value;
     }
 
     /**
