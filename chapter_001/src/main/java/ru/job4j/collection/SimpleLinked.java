@@ -105,16 +105,15 @@ public class SimpleLinked<E> implements Iterable<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-            private int point = 0;
             private final int expectedModCount = modCount;
-            private Node<E> rsl = null;
+            private Node<E> node = first;
 
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return point < size;
+                return node != null;
             }
 
             @Override
@@ -122,13 +121,9 @@ public class SimpleLinked<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (point == 0) {
-                    rsl = first;
-                } else {
-                    rsl = rsl.next;
-                }
-                point++;
-                return rsl.item;
+                E item = node.item;
+                node = node.next;
+                return item;
             }
         };
     }
