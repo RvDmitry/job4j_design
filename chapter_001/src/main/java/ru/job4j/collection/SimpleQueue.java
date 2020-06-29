@@ -21,9 +21,24 @@ public class SimpleQueue<T> {
      * @return Элемент
      */
     public T poll() {
-        reverse(in, out);
+        T item;
+        while (true) {
+            try {
+                item = in.pop();
+            } catch (Exception ex) {
+                break;
+            }
+            out.push(item);
+        }
         T first = out.pop();
-        reverse(out, in);
+        while (true) {
+            try {
+                item = out.pop();
+            } catch (Exception ex) {
+                break;
+            }
+            in.push(item);
+        }
         return first;
     }
 
@@ -33,22 +48,5 @@ public class SimpleQueue<T> {
      */
     public void push(T value) {
         in.push(value);
-    }
-
-    /**
-     * Метод перемещает элементы из одной коллекции в другую в обратном порядке.
-     * @param source Исходная коллекция
-     * @param dest Коллекция, в которую нужно переместить элементы из исходной
-     */
-    private void reverse(SimpleStack<T> source, SimpleStack<T> dest) {
-        T item;
-        while (true) {
-            try {
-                item = source.pop();
-            } catch (Exception ex) {
-                break;
-            }
-            dest.push(item);
-        }
     }
 }
