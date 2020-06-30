@@ -21,25 +21,12 @@ public class SimpleQueue<T> {
      * @return Элемент
      */
     public T poll() {
-        T item;
-        while (true) {
-            try {
-                item = in.pop();
-            } catch (Exception ex) {
-                break;
+        if (out.isEmpty()) {
+            while (!in.isEmpty()) {
+                out.push(in.pop());
             }
-            out.push(item);
         }
-        T first = out.pop();
-        while (true) {
-            try {
-                item = out.pop();
-            } catch (Exception ex) {
-                break;
-            }
-            in.push(item);
-        }
-        return first;
+        return out.pop();
     }
 
     /**
