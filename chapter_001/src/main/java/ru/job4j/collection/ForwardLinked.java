@@ -67,6 +67,26 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     /**
+     * Метод переворачивает список на обратный порядок.
+     */
+    public void revert() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        Node<T> preNode = null;
+        Node<T> currentNode = head;
+        Node<T> nextNode = currentNode.next;
+        while (nextNode != null) {
+            currentNode.next = preNode;
+            preNode = currentNode;
+            currentNode = nextNode;
+            nextNode = currentNode.next;
+        }
+        currentNode.next = preNode;
+        head = currentNode;
+    }
+
+    /**
      * Метод возвращает итератор для обхода списка.
      * @return Итератор
      */
