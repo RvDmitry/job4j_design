@@ -1,6 +1,9 @@
 package ru.job4j.collection;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class User
@@ -62,5 +65,20 @@ public class User {
      */
     public Calendar getBirthday() {
         return birthday;
+    }
+
+    /**
+     * Главный метод программы. В методе исследуется работа с коллекцией типа Map.
+     * @param args Параметры командной строки
+     */
+    public static void main(String[] args) {
+        User user1 = new User("Ivan", new GregorianCalendar(1990, 0, 20));
+        user1.setChildren(2);
+        User user2 = new User("Ivan", new GregorianCalendar(1990, 0, 20));
+        user2.setChildren(2);
+        Map<User, Object> map = new HashMap<>();
+        map.put(user1, new Object());
+        map.put(user2, new Object());
+        System.out.println(map);
     }
 }
