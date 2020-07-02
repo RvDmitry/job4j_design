@@ -1,9 +1,6 @@
 package ru.job4j.collection;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class User
@@ -65,6 +62,12 @@ public class User {
      */
     public Calendar getBirthday() {
         return birthday;
+    }
+
+    @SuppressWarnings("checkstyle:EqualsHashCode")
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
     }
 
     /**
