@@ -43,7 +43,18 @@ public class SimpleSetTest {
     @Test(expected = NoSuchElementException.class)
     public void whenIteratorException() {
         SimpleSet<Integer> set = new SimpleSet<>();
+        set.iterator().next();
+    }
+
+    @Test
+    public void whenNullAdd() {
+        SimpleSet<Integer> set = new SimpleSet<>();
+        set.add(1);
+        set.add(null);
+        set.add(null);
         Iterator<Integer> it = set.iterator();
-        it.next();
+        assertThat(it.next(), is(1));
+        assertNull(it.next());
+        assertFalse(it.hasNext());
     }
 }

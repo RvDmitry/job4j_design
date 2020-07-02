@@ -20,13 +20,31 @@ public class SimpleSet<E> implements Iterable<E> {
      * @param e Элемент
      */
     public void add(E e) {
-        Iterator<E> iter = array.iterator();
-        while (iter.hasNext()) {
-            if (iter.next().equals(e)) {
-                return;
+        if (!contains(e)) {
+            array.add(e);
+        }
+    }
+
+    /**
+     * Метод проверяет, содержит ли коллекция передаваемый элемент.
+     * @param e Элемент, который нужно проверить на присутствие его в коллекции
+     * @return true, если элемент содержится в коллекции, иначе false
+     */
+    private boolean contains(E e) {
+        Iterator<E> it = array.iterator();
+        while (it.hasNext()) {
+            E value = it.next();
+            if (value != null) {
+                if (value.equals(e)) {
+                    return true;
+                }
+            } else {
+                if (e == null) {
+                    return true;
+                }
             }
         }
-        array.add(e);
+        return false;
     }
 
     /**
