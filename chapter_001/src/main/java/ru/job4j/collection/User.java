@@ -64,7 +64,11 @@ public class User {
         return birthday;
     }
 
-    @SuppressWarnings("checkstyle:EqualsHashCode")
+    /**
+     * Метод переопределяет метод сравнения двух объектов.
+     * @param o Объект User
+     * @return true, если объекты равны, иначе false
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -76,6 +80,15 @@ public class User {
         User user = (User) o;
         return children == user.children && Objects.equals(name, user.name)
                 && Objects.equals(birthday, user.birthday);
+    }
+
+    /**
+     * Метод переопределяет метод вычисления хеш-кода объекта.
+     * @return Хеш-код
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
     }
 
     /**
