@@ -3,6 +3,8 @@ package ru.job4j.collection;
 import org.junit.Test;
 
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -55,5 +57,17 @@ public class UserTest {
         user3.setChildren(1);
         assertEquals(user1.hashCode(), user3.hashCode());
         assertNotEquals(user1.hashCode(), user2.hashCode());
+    }
+
+    @Test
+    public void whenAdd2EqualUsersToMapThen1User() {
+        User user1 = new User("Ivan", new GregorianCalendar(1990, 0, 20));
+        user1.setChildren(2);
+        User user2 = new User("Ivan", new GregorianCalendar(1990, 0, 20));
+        user2.setChildren(2);
+        Map<User, Object> map = new HashMap<>();
+        map.put(user1, new Object());
+        map.put(user2, new Object());
+        assertThat(map.size(), is(1));
     }
 }
