@@ -1,6 +1,7 @@
 package ru.job4j.collection;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Class SimpleSet
@@ -33,15 +34,8 @@ public class SimpleSet<E> implements Iterable<E> {
     private boolean contains(E e) {
         Iterator<E> it = array.iterator();
         while (it.hasNext()) {
-            E value = it.next();
-            if (value != null) {
-                if (value.equals(e)) {
-                    return true;
-                }
-            } else {
-                if (e == null) {
-                    return true;
-                }
+            if (Objects.equals(it.next(), e)) {
+                return true;
             }
         }
         return false;
