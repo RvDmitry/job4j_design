@@ -51,7 +51,8 @@ public class UserTest {
         user1.setChildren(1);
         User user2 = new User("Petr", birthday);
         user2.setChildren(1);
-        User user3 = user1;
+        User user3 = new User("Ivan", birthday);
+        user3.setChildren(1);
         assertEquals(user1.hashCode(), user3.hashCode());
         assertNotEquals(user1.hashCode(), user2.hashCode());
     }
