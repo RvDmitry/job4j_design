@@ -31,7 +31,7 @@ public class UserTest {
         user1.setChildren(1);
         User user2 = new User("Ivan", birthday);
         user2.setChildren(1);
-        assertThat(user1, is(user2));
+        assertEquals(user1, user2);
     }
 
     @Test
@@ -42,5 +42,17 @@ public class UserTest {
         User user2 = new User("Petr", birthday);
         user2.setChildren(1);
         assertNotEquals(user1, user2);
+    }
+
+    @Test
+    public void whenUserHashCode() {
+        GregorianCalendar birthday = new GregorianCalendar(2000, 2, 10);
+        User user1 = new User("Ivan", birthday);
+        user1.setChildren(1);
+        User user2 = new User("Petr", birthday);
+        user2.setChildren(1);
+        User user3 = user1;
+        assertEquals(user1.hashCode(), user3.hashCode());
+        assertNotEquals(user1.hashCode(), user2.hashCode());
     }
 }
