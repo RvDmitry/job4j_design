@@ -34,6 +34,14 @@ public class SimpleMapTest {
     }
 
     @Test
+    public void whenInsertNull() {
+        SimpleMap<String, String> map = new SimpleMap<>();
+        map.insert(null, "Paris");
+        map.insert(null, "Tokyo");
+        assertThat(map.get(null), is("Paris"));
+    }
+
+    @Test
     public void whenGetExistKey() {
         SimpleMap<String, String> map = new SimpleMap<>();
         map.insert("One", "Dublin");
