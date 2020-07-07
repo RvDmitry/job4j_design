@@ -66,6 +66,17 @@ public class SimpleMapTest {
     }
 
     @Test
+    public void whenDeleteNullItem() {
+        SimpleMap<String, String> map = new SimpleMap<>();
+        map.insert(null, "Paris");
+        map.insert("Two", "London");
+        map.delete(null);
+        Iterator<String> it = map.iterator();
+        assertThat(it.next(), is("London"));
+        assertFalse(it.hasNext());
+    }
+
+    @Test
     public void whenDeleteThenFalse() {
         SimpleMap<String, String> map = new SimpleMap<>();
         assertFalse(map.delete("Three"));

@@ -3,6 +3,7 @@ package ru.job4j.collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Class SimpleMap
@@ -66,18 +67,18 @@ public class SimpleMap<K, V> implements Iterable<V> {
         int h = hash(key);
         int index = indexFor(h, table.length);
         var node = table[index];
-        return node != null ? node.value : null;
+        return (node != null && Objects.equals(node.key, key)) ? node.value : null;
     }
 
     /**
      * Метод удаляет элемент по его ключу.
      * @param key Ключ
-     * @return true, если элемент вставлен успешно, иначе false
+     * @return true, если элемент удален успешно, иначе false
      */
     public boolean delete(K key) {
         int h = hash(key);
         int index = indexFor(h, table.length);
-        if (table[index] != null) {
+        if (table[index] != null && Objects.equals(table[index].key, key)) {
             table[index] = null;
             size--;
             modCount++;
@@ -100,7 +101,7 @@ public class SimpleMap<K, V> implements Iterable<V> {
     }
 
     /**
-     * Метод определяет индекс ячейки массива, в которую будет помещатся элемент,
+     * Метод определяет индекс ячейки массива, в которую будет помещаться элемент,
      * по хеш-коду ключа данного элемента.
      * @param h Хеш-код ключа
      * @param length Размер массива для хранения элементов
