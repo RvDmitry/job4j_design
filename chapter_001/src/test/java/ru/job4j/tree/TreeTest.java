@@ -44,4 +44,32 @@ public class TreeTest {
         var rsl = tree.add(1, 2);
         assertThat(rsl, is(false));
     }
+
+    @Test
+    public void whenAddNoExistParentElThenFalse() {
+        Tree<Integer> tree = new Tree<>(1);
+        var rsl = tree.add(2, 3);
+        assertThat(rsl, is(false));
+    }
+
+    @Test
+    public void whenTreeIsBinaryThenTrue() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        assertTrue(tree.isBinary());
+    }
+
+    @Test
+    public void whenTreeIsNotBinaryThenFalse() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(2, 6);
+        assertFalse(tree.isBinary());
+    }
 }

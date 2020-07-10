@@ -65,4 +65,21 @@ class Tree<E> implements SimpleTree<E> {
         }
         return rsl;
     }
+
+    /**
+     * Метод проверяет, является ли дерево бинарным.
+     * @return true, если дерево бинарное, иначе false
+     */
+    public boolean isBinary() {
+        Queue<Node<E>> data = new LinkedList<>();
+        data.offer(this.root);
+        while (!data.isEmpty()) {
+            var children = data.poll().getChildren();
+            if (children.size() >= 3) {
+                return false;
+            }
+            data.addAll(children);
+        }
+        return true;
+    }
 }
