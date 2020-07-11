@@ -3,6 +3,7 @@ package ru.job4j.tree;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 /**
  * Class Tree
@@ -33,35 +34,22 @@ class Tree<E> implements SimpleTree<E> {
     @Override
     public boolean add(E parent, E child) {
         var opt = findBy(parent);
-        if (opt.isPresent()) {
-            if (findBy(child).isPresent()) {
-                return false;
-            }
-            opt.get().getChildren().add(new Node<>(child));
-            return true;
+        if (opt.isEmpty() || findBy(child).isPresent()) {
+            return false;
         }
-        return false;
+        opt.get().getChildren().add(new Node<>(child));
+        return true;
     }
 
     /**
-     * Метод ищет узел в дереве.
-     * @param value Узел
-     * @return Узел, если существует или пустой элемент
+     * Метод ищет узел в структуре дерева, который имеет заданное значение.
+     * @param value Значение узла
+     * @return Объект содержащий найденный узел либо пустой объект
      */
     @Override
     public Optional<Node<E>> findBy(E value) {
-        Optional<Node<E>> rsl = Optional.empty();
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.getValue().equals(value)) {
-                rsl = Optional.of(el);
-                break;
-            }
-            data.addAll(el.getChildren());
-        }
-        return rsl;
+        Predicate<Node<E>> pre = el -> el.getValue().equals(value);
+        return search(pre);
     }
 
     /**
@@ -69,15 +57,27 @@ class Tree<E> implements SimpleTree<E> {
      * @return true, если дерево бинарное, иначе false
      */
     public boolean isBinary() {
+        Predicate<Node<E>> pre = el -> el.getChildren().size() >= 3;
+        return search(pre).isEmpty();
+    }
+
+    /**
+     * Метод осуществляет поиск узла в структуре дерева, удовлетворяющий переданному условию.
+     * @param pre Условие, которому должен соответствовать узел
+     * @return Объект содержащий найденный узел либо пустой объект
+     */
+    private Optional<Node<E>> search(Predicate<Node<E>> pre) {
+        Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
         while (!data.isEmpty()) {
-            var children = data.poll().getChildren();
-            if (children.size() >= 3) {
-                return false;
+            Node<E> el = data.poll();
+            if (pre.test(el)) {
+                rsl = Optional.of(el);
+                break;
             }
-            data.addAll(children);
+            data.addAll(el.getChildren());
         }
-        return true;
+        return rsl;
     }
 }
