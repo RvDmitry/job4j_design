@@ -32,17 +32,15 @@ class Tree<E> implements SimpleTree<E> {
      */
     @Override
     public boolean add(E parent, E child) {
-        boolean rsl = false;
-        var optNode = findBy(parent);
-        if (optNode.isPresent()) {
-            var children = optNode.get().getChildren();
-            boolean exist = children.stream().anyMatch(node -> node.getValue().equals(child));
-            if (!exist) {
-                children.add(new Node<>(child));
-                return true;
+        var opt = findBy(parent);
+        if (opt.isPresent()) {
+            if (findBy(child).isPresent()) {
+                return false;
             }
+            opt.get().getChildren().add(new Node<>(child));
+            return true;
         }
-        return rsl;
+        return false;
     }
 
     /**

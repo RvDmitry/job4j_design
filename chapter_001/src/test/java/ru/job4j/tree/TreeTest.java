@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  */
 public class TreeTest {
     @Test
-    public void when6ElFindLastThen6() {
+    public void when6ElFindThen6() {
         Tree<Integer> tree = new Tree<>(1);
         tree.add(1, 2);
         tree.add(1, 3);
@@ -28,7 +28,7 @@ public class TreeTest {
     }
 
     @Test
-    public void when6ElFindNotExitThenOptionEmpty() {
+    public void when7ElFindNotExistThenOptionEmpty() {
         Tree<Integer> tree = new Tree<>(1);
         tree.add(1, 2);
         assertThat(
@@ -38,10 +38,11 @@ public class TreeTest {
     }
 
     @Test
-    public void whenAddExistElThenFalse() {
+    public void whenAddExistChildElThenFalse() {
         Tree<Integer> tree = new Tree<>(1);
         tree.add(1, 2);
-        var rsl = tree.add(1, 2);
+        tree.add(1, 3);
+        boolean rsl = tree.add(2, 3);
         assertThat(rsl, is(false));
     }
 
