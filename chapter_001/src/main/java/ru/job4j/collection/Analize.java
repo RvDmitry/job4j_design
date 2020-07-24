@@ -1,7 +1,9 @@
 package ru.job4j.collection;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Class Analize
@@ -20,19 +22,21 @@ public class Analize {
         int added = 0;
         int changed = 0;
         int deleted = 0;
-        for (User cur : current) {
-            if (previous.contains(cur)) {
-                int index = previous.indexOf(cur);
-                User prev = previous.get(index);
-                if (!prev.name.equals(cur.name)) {
+        Map<Integer, User> first = previous.stream()
+                .collect(Collectors.toMap(k -> k.id, user -> user));
+        Map<Integer, User> second = current.stream()
+                .collect(Collectors.toMap(k -> k.id, user -> user));
+        for (int id : second.keySet()) {
+            if (first.containsKey(id)) {
+                if (!first.get(id).name.equals(second.get(id).name)) {
                     changed++;
                 }
             } else {
                 added++;
             }
         }
-        for (User pre : previous) {
-            if (!current.contains(pre)) {
+        for (int id : first.keySet()) {
+            if (!second.containsKey(id)) {
                 deleted++;
             }
         }
