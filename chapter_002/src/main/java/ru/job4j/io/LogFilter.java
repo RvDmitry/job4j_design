@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +28,28 @@ public class LogFilter {
     }
 
     /**
+     * Метод записывает данные из списка в файл.
+     * @param log Список, который нужно записать в файл
+     * @param file Файл для записи
+     */
+    public static void save(List<String> log, String file) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedOutputStream(
+                        new FileOutputStream(file)))) {
+            for (String s : log) {
+                out.write(s + System.lineSeparator());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Главный метод программы. Выводит данные из лог-файла на экран.
      * @param args Параметры командной строки
      */
     public static void main(String[] args) {
         List<String> log = filter("log.txt");
-        System.out.println(log);
+        save(log, "404.txt");
     }
 }
