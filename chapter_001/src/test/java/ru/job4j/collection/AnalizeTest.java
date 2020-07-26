@@ -68,4 +68,17 @@ public class AnalizeTest {
         assertThat(info.getChanged(), is(0));
         assertThat(info.getDeleted(), is(1));
     }
+
+    @Test
+    public void whenUser1Add1Change1Delete() {
+        List<Analize.User> current = new ArrayList<>(prev);
+        current.add(new Analize.User(4, "User 4"));
+        Analize.User user = new Analize.User(2, "New User");
+        current.set(1, user);
+        current.remove(2);
+        Analize.Info info = analize.diff(prev, current);
+        assertThat(info.getAdded(), is(1));
+        assertThat(info.getChanged(), is(1));
+        assertThat(info.getDeleted(), is(1));
+    }
 }
