@@ -1,6 +1,9 @@
 package ru.job4j.io;
 
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,11 +20,20 @@ import static org.junit.Assert.*;
  * @version 1
  */
 public class AnalizyTest {
-    private String log = "./src/test/resources/server.log";
-    private String filtered = "./src/test/resources/unavailable.csv";
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
+    private File source;
+    private File target;
+
+    @Before
+    public void setUp() throws IOException {
+        source = folder.newFile("server.log");
+        target = folder.newFile("unavailable.csv");
+    }
 
     @Test
-    public void whenTwoPeriodsOfUnavailability() {
+    public void whenTwoPeriodsOfUnavailability() throws IOException {
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         joiner.add("200 10:56:01");
         joiner.add("500 10:57:01");
@@ -31,15 +43,15 @@ public class AnalizyTest {
         joiner.add("200 11:02:02");
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
-                        new FileOutputStream(log)
+                        new FileOutputStream(source.getAbsolutePath())
                 ))) {
             out.write(joiner.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new Analizy().unavailable(log, filtered);
+        new Analizy().unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         List<String> lines = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filtered))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(target.getAbsolutePath()))) {
             in.lines().forEach(lines::add);
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,7 +62,7 @@ public class AnalizyTest {
     }
 
     @Test
-    public void whenOnePeriodsOfUnavailability() {
+    public void whenOnePeriodsOfUnavailability() throws IOException {
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         joiner.add("200 09:42:05");
         joiner.add("300 10:20:10");
@@ -61,15 +73,15 @@ public class AnalizyTest {
         joiner.add("300 12:45:30");
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
-                        new FileOutputStream(log)
+                        new FileOutputStream(source.getAbsolutePath())
                 ))) {
             out.write(joiner.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new Analizy().unavailable(log, filtered);
+        new Analizy().unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         List<String> lines = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filtered))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(target.getAbsolutePath()))) {
             in.lines().forEach(lines::add);
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +91,7 @@ public class AnalizyTest {
     }
 
     @Test
-    public void whenThreePeriodsOfUnavailability() {
+    public void whenThreePeriodsOfUnavailability() throws IOException {
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         joiner.add("200 09:42:05");
         joiner.add("400 10:20:10");
@@ -90,15 +102,15 @@ public class AnalizyTest {
         joiner.add("300 12:45:30");
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
-                        new FileOutputStream(log)
+                        new FileOutputStream(source.getAbsolutePath())
                 ))) {
             out.write(joiner.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new Analizy().unavailable(log, filtered);
+        new Analizy().unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         List<String> lines = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(filtered))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(target.getAbsolutePath()))) {
             in.lines().forEach(lines::add);
         } catch (Exception e) {
             e.printStackTrace();

@@ -16,8 +16,9 @@ public class Analizy {
      * бездействия сервера записывает в другой файл.
      * @param source Исходный файл лога сервера
      * @param target Файл содержащий обработанную информацию
+     * @throws IOException Исключение, возникающее при ошибке чтения либо записи файла
      */
-    public void unavailable(String source, String target) {
+    public void unavailable(String source, String target) throws IOException {
         List<String> lines = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(source))) {
             String s;
