@@ -20,24 +20,31 @@ public class Analizy {
     public void unavailable(String source, String target) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(source))) {
-            in.lines().filter(s -> s.trim().length() != 0).forEach(lines::add);
+            String s;
+            while ((s = in.readLine()) != null) {
+                if ((s.trim().length() != 0)) {
+                    lines.add(s);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        StringBuilder builder = new StringBuilder();
+        boolean prev = false;
+        for (String s : lines) {
+            if ((s.contains("400") || s.contains("500")) && !prev) {
+                builder.append(s.substring(s.indexOf(' ') + 1) + ';');
+                prev = true;
+            }
+            if (!(s.contains("400") || s.contains("500")) && prev) {
+                builder.append(s.substring(s.indexOf(' ') + 1) + System.lineSeparator());
+                prev = false;
+            }
         }
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
                         new FileOutputStream(target)))) {
-            boolean prev = false;
-            for (String s : lines) {
-                if ((s.contains("400") || s.contains("500")) && !prev) {
-                    out.write(s.substring(s.indexOf(' ') + 1) + ';');
-                    prev = true;
-                }
-                if (!(s.contains("400") || s.contains("500")) && prev) {
-                    out.write(s.substring(s.indexOf(' ') + 1) + System.lineSeparator());
-                    prev = false;
-                }
-            }
+            out.write(builder.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
