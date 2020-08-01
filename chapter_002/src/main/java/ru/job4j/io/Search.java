@@ -19,8 +19,13 @@ public class Search {
      * @throws IOException Исключение, если происходит ошибка чтения файла или каталога
      */
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, "js").forEach(System.out::println);
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Root folder is null. "
+                    + "Usage java -jar dir.jar ROOT_FOLDER.");
+        }
+        Path start = Paths.get(args[0]);
+        String exp = args[1];
+        search(start, exp).forEach(System.out::println);
     }
 
     /**
