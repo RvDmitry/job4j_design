@@ -19,7 +19,7 @@ public class Search {
      * @throws IOException Исключение, если происходит ошибка чтения файла или каталога
      */
     public static void main(String[] args) throws IOException {
-        if (args.length == 0) {
+        if (args.length != 2) {
             throw new IllegalArgumentException("Root folder is null. "
                     + "Usage java -jar dir.jar ROOT_FOLDER.");
         }
@@ -33,6 +33,7 @@ public class Search {
      * @param root Директория с которой нужно начать поиск
      * @param ext Расширение файлов, которые нужно найти
      * @return Список файлов с заданным расширением
+     * @throws IOException Исключение, если происходит ошибка чтения файла или каталога
      */
     public static List<Path> search(Path root, String ext) throws IOException {
         SearchFiles searcher = new SearchFiles(p -> p.toFile().getName().endsWith(ext));
