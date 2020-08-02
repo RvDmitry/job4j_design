@@ -41,10 +41,8 @@ public class Chat {
         }
         String say = consoleInput();
         while (!say.equals("закончить")) {
-            if (say.equals("стоп")) {
+            if (say.equals("стоп") || stop) {
                 stop = true;
-            }
-            if (stop) {
                 say = consoleInput();
                 continue;
             }
