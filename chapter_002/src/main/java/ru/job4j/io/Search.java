@@ -40,4 +40,16 @@ public class Search {
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
     }
+
+    /**
+     * Метод возвращает список всех файлов находящихся в заданной директории.
+     * @param root Директория в которой осуществляется поиск файлов
+     * @return Список файлов находящихся в директории
+     * @throws IOException Исключение, если происходит ошибка чтения файла или каталога
+     */
+    public static List<Path> search(Path root) throws IOException {
+        SearchFiles searcher = new SearchFiles(p -> true);
+        Files.walkFileTree(root, searcher);
+        return searcher.getPaths();
+    }
 }
