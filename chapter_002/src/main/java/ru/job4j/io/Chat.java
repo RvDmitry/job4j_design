@@ -10,63 +10,51 @@ import java.util.StringJoiner;
  * Class Chat
  * Класс реализует консольный чат.
  * @author Dmitry Razumov
- * @version 1
+ * @version 2
  */
 public class Chat {
     /**
-     * Поле служит для сохранения диалога пользователя с ботом.
+     * Константа задает команду начала диалога.
      */
-    private static StringJoiner dialog = new StringJoiner(System.lineSeparator());
+    private static final String START = "продолжить";
+    /**
+     * Константа задает команду остановки диалога.
+     */
+    private static final String STOP = "стоп";
+    /**
+     * Константа задает команду завершения работы программы.
+     */
+    private static final String FINISH = "закончить";
     /**
      * Поле создает и инициализирует объект Scanner.
      */
-    private static Scanner in = new Scanner(System.in);
+    private final Scanner in = new Scanner(System.in);
+    /**
+     * В список сохраняются фразы считанные из файла.
+     */
+    private final List<String> phrases = new ArrayList<>();
+    /**
+     * Поле служит для сохранения диалога пользователя с ботом.
+     */
+    private final StringJoiner dialog = new StringJoiner(System.lineSeparator());
     /**
      * Поле определяет активен ли диалог пользователя с ботом или остановлен.
      * Если stop = false, то диалог активен, если stop = true, диалог остановлен.
      */
-    private static boolean stop;
-
-    /**
-     * Главный метод программы.
-     * @param args Параметры командной строки
-     */
-    public static void main(String[] args) {
-        List<String> phrases = new ArrayList<>();
-        try (BufferedReader input = new BufferedReader(
-                new FileReader("chapter_002/src/main/resources/chat.txt"))) {
-            input.lines().forEach(phrases::add);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String say = consoleInput();
-        while (!say.equals("закончить")) {
-            if (say.equals("стоп") || stop) {
-                stop = true;
-                say = consoleInput();
-                continue;
-            }
-            int index = (int) (Math.random() * phrases.size());
-            String answer = phrases.get(index);
-            System.out.println(answer);
-            dialog.add("Bot: " + answer);
-            say = consoleInput();
-        }
-        saveLog(dialog.toString());
-    }
+    private boolean stop;
 
     /**
      * Метод считывает введенный в консоли текст пользователем.
      * @return Текст введенный в консоли
      */
-    private static String consoleInput() {
+    private String consoleInput() {
         String say = in.nextLine();
-        if (say.equals("продолжить")) {
+        if (say.equals(START)) {
             dialog.add("I am: " + say);
             stop = false;
             say = in.nextLine();
         }
-        if (!stop || say.equals("закончить") || say.equals("стоп")) {
+        if (!stop || say.equals(FINISH) || say.equals(STOP)) {
             dialog.add("I am: " + say);
         }
         return say;
@@ -74,15 +62,66 @@ public class Chat {
 
     /**
      * Метод записывает диалог пользователя и бота в текстовый файл.
-     * @param log Строка содержащая диалог
+     * @param log Лог-файл диалога
      */
-    private static void saveLog(String log) {
+    private void saveLog(String log) {
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
-                        new FileOutputStream("chapter_002/src/main/resources/dialog.txt")))) {
-            out.write(log);
+                        new FileOutputStream(log)))) {
+            out.write(dialog.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Метод считывает из заданного файла список фраз.
+     * @param file Файл из которого нужно вычитать фразы
+     */
+    private void readFile(String file) {
+        try (BufferedReader input = new BufferedReader(
+                new FileReader(file))) {
+            input.lines().forEach(phrases::add);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Метод генерирует ответы бота.
+     */
+    private void botAnswer() {
+        int index = (int) (Math.random() * phrases.size());
+        String answer = phrases.get(index);
+        System.out.println(answer);
+        dialog.add("Bot: " + answer);
+    }
+
+    /**
+     * Метод запускает чат с ботом.
+     */
+    public void runChat() {
+        String input = "chapter_002/src/main/resources/chat.txt";
+        String output = "chapter_002/src/main/resources/dialog.txt";
+        readFile(input);
+        String say = consoleInput();
+        while (!say.equals(FINISH)) {
+            if (say.equals(STOP) || stop) {
+                stop = true;
+                say = consoleInput();
+                continue;
+            }
+            botAnswer();
+            say = consoleInput();
+        }
+        saveLog(output);
+    }
+
+    /**
+     * Главный метод программы.
+     * @param args Параметры командной строки
+     */
+    public static void main(String[] args) {
+        new Chat().runChat();
     }
 }
