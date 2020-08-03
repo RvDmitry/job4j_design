@@ -1,10 +1,12 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -52,12 +54,26 @@ public class Zip {
     }
 
     /**
+     * Метод осуществляет поиск файлов в заданной директории согласно переданному условию.
+     * @param root Директория для поиска файлов
+     * @param predicate Условие, по которому ищутся файлы
+     * @return Список файлов находящихся в директории
+     * @throws IOException Исключение, если происходит ошибка чтения файла или каталога
+     */
+    public List<Path> search(Path root, Predicate<Path> predicate) throws IOException {
+        SearchFiles searcher = new SearchFiles(predicate);
+        Files.walkFileTree(root, searcher);
+        return searcher.getPaths();
+    }
+
+    /**
      * Главный метод программы. Осуществляет архивирование отдельно взятого файла.
      * А также заданного каталога. Параметры передаются в метод через конфигурацию приложения.
      * @param args Параметры командной строки
      */
     public static void main(String[] args) throws IOException {
-        new Zip().packSingleFile(
+        Zip zip = new Zip();
+        zip.packSingleFile(
                 new File("./chapter_002/pom.xml"),
                 new File("./chapter_002/pom.zip")
         );
@@ -66,21 +82,10 @@ public class Zip {
             throw new IllegalArgumentException(
                     "The number of arguments does not match the required value");
         }
-        List<Path> paths = Search.search(Paths.get(arg.directory()));
-        List<File> files = new ArrayList<>();
         String exclude = arg.exclude();
-        if (exclude != null) {
-            for (Path path : paths) {
-                if (path.toString().endsWith(exclude)) {
-                    continue;
-                }
-                files.add(path.toFile());
-            }
-        } else {
-            for (Path path : paths) {
-                files.add(path.toFile());
-            }
-        }
-        new Zip().packFiles(files, new File(arg.output()));
+        List<File> files = zip.search(Paths.get(arg.directory()),
+                path -> exclude == null || !path.toString().endsWith(exclude))
+                .stream().map(Path::toFile).collect(Collectors.toList());
+        zip.packFiles(files, new File(arg.output()));
     }
 }
