@@ -19,7 +19,6 @@ public class EchoServer {
      * @param args Параметры командной строки
      * @throws IOException Исключение, генерируется если порт закрыт либо занят
      */
-    @SuppressWarnings({"CheckStyle"})
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
             outer:
@@ -28,12 +27,13 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
-                    String str;
-                    while (!(str = in.readLine()).isEmpty()) {
+                    String str = in.readLine();
+                    while (!str.isEmpty()) {
                         if (str.contains("Bye")) {
                             break outer;
                         }
                         System.out.println(str);
+                        str = in.readLine();
                     }
                     out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
                 }
