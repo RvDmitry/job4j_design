@@ -15,11 +15,40 @@ import java.net.Socket;
  */
 public class EchoServer {
     /**
-     * Главный метод программы.
+     * Константа задает команду прекращения работы сервера.
+     */
+    private static final String EXIT = "Exit";
+
+    /**
+     * Метод извлекает текст сообщения, которое отправил пользователь на сервер.
+     * @param str Строка, которую считывает сервер
+     * @return Текст сообщения
+     */
+    private static String extract(String str) {
+        StringBuilder msg = new StringBuilder();
+        int index = str.indexOf("msg=");
+        if (index == -1) {
+            return null;
+        }
+        String sub = str.substring(index + 4);
+        for (int i = 0; i < sub.length(); i++) {
+            if (sub.charAt(i) == ' ') {
+                break;
+            }
+            msg.append(sub.charAt(i));
+        }
+        return msg.toString();
+    }
+
+    /**
+     * Главный метод программы. Запускает сервер и отвечает сообщением, значение которого равно
+     * сообщению пользователя отправленного серверу.
+     * Если пользователь отправил сообщение "Exit", сервер прекращает работу.
      * @param args Параметры командной строки
      * @throws IOException Исключение, генерируется если порт закрыт либо занят
      */
     public static void main(String[] args) throws IOException {
+        String answer = null;
         boolean run = true;
         try (ServerSocket server = new ServerSocket(9000)) {
             while (run) {
@@ -29,14 +58,21 @@ public class EchoServer {
                              new InputStreamReader(socket.getInputStream()))) {
                     String str = in.readLine();
                     while (!str.isEmpty()) {
-                        if (str.contains("Bye")) {
+                        String msg = extract(str);
+                        if (msg != null && msg.equals(EXIT)) {
                             run = false;
                             break;
+                        }
+                        if (msg != null) {
+                            answer = msg;
                         }
                         System.out.println(str);
                         str = in.readLine();
                     }
-                    out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
+                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                    if (run) {
+                        out.write((answer + ", dear friend.").getBytes());
+                    }
                 }
             }
         }
