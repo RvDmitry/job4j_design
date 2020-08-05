@@ -20,9 +20,9 @@ public class EchoServer {
      * @throws IOException Исключение, генерируется если порт закрыт либо занят
      */
     public static void main(String[] args) throws IOException {
+        boolean run = true;
         try (ServerSocket server = new ServerSocket(9000)) {
-            outer:
-            while (true) {
+            while (run) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
@@ -30,7 +30,8 @@ public class EchoServer {
                     String str = in.readLine();
                     while (!str.isEmpty()) {
                         if (str.contains("Bye")) {
-                            break outer;
+                            run = false;
+                            break;
                         }
                         System.out.println(str);
                         str = in.readLine();
