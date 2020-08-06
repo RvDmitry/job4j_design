@@ -30,5 +30,10 @@ public class UsageLog4j {
         LOG.debug("User info name : {}, age : {}, isOpen : {}, zip : {}, account : {}, "
                 + "bank : {}, percent : {}, money : {}, code : {}", name, age, isOpen, zip,
                 account, bank, percent, money, code);
+        try {
+            throw new Exception("Not supported code");
+        } catch (Exception e) {
+            LOG.error("Exception in log example", e);
+        }
     }
 }

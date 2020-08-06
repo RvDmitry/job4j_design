@@ -1,5 +1,8 @@
 package ru.job4j.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,6 +25,10 @@ public class EchoServer {
      * Константа задает команду приветствия пользователем бота.
      */
     private static final String HELLO = "Hello";
+    /**
+     * Объект отвечает за логгирование.
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     /**
      * Метод извлекает текст сообщения, которое отправил пользователь на сервер.
@@ -49,9 +56,8 @@ public class EchoServer {
      * сообщению пользователя отправленного серверу.
      * Если пользователь отправил сообщение "Exit", сервер прекращает работу.
      * @param args Параметры командной строки
-     * @throws IOException Исключение, генерируется если порт закрыт либо занят
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String answer = null;
         boolean run = true;
         try (ServerSocket server = new ServerSocket(9000)) {
@@ -83,6 +89,8 @@ public class EchoServer {
                     }
                 }
             }
+        } catch (IOException e) {
+            LOG.error("Server Exception", e);
         }
     }
 }
