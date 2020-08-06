@@ -18,10 +18,17 @@ public class UsageLog4j {
      * @param args Параметры командной строки
      */
     public static void main(String[] args) {
-        LOG.trace("trace message");
-        LOG.debug("debug message");
-        LOG.info("info message");
-        LOG.warn("warn message");
-        LOG.error("error message");
+        String name = "Petr Petrov";
+        byte age = 35;
+        boolean isOpen = true;
+        short zip = 15236;
+        int account = 4561239;
+        long bank = 456897135456L;
+        float percent = 5.6f;
+        double money = 12346.12;
+        char code = 'A';
+        LOG.debug("User info name : {}, age : {}, isOpen : {}, zip : {}, account : {}, "
+                + "bank : {}, percent : {}, money : {}, code : {}", name, age, isOpen, zip,
+                account, bank, percent, money, code);
     }
 }
