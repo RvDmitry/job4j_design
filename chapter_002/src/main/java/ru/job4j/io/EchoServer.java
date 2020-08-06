@@ -18,6 +18,10 @@ public class EchoServer {
      * Константа задает команду прекращения работы сервера.
      */
     private static final String EXIT = "Exit";
+    /**
+     * Константа задает команду приветствия пользователем бота.
+     */
+    private static final String HELLO = "Hello";
 
     /**
      * Метод извлекает текст сообщения, которое отправил пользователь на сервер.
@@ -70,8 +74,12 @@ public class EchoServer {
                         str = in.readLine();
                     }
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                    if (run) {
-                        out.write((answer + ", dear friend.").getBytes());
+                    if (run && answer != null) {
+                        if (answer.equals(HELLO)) {
+                            out.write("Hello, dear friend.".getBytes());
+                        } else {
+                            out.write(answer.getBytes());
+                        }
                     }
                 }
             }
