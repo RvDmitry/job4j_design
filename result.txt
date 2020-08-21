@@ -1,1 +1,14 @@
-Hello, world!
+c:\projects\games_oop_javafx\chess\pom.xml
+c:\projects\games_oop_javafx\packman\pom.xml
+c:\projects\games_oop_javafx\pom.xml
+c:\projects\games_oop_javafx\puzzle\pom.xml
+c:\projects\games_oop_javafx\seabattle\pom.xml
+c:\projects\games_oop_javafx\tictactoe\pom.xml
+c:\projects\job4j_design\chapter_001\pom.xml
+c:\projects\job4j_design\chapter_002\pom.xml
+c:\projects\job4j_design\chapter_003\pom.xml
+c:\projects\job4j_design\chapter_004\pom.xml
+c:\projects\job4j_design\chapter_005\pom.xml
+c:\projects\job4j_design\pom.xml
+c:\projects\job4j_elementary\pom.xml
+c:\projects\job4j_tracker\pom.xml
