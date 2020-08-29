@@ -50,11 +50,30 @@ public class ImportDB {
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
-            rd.lines()
-                    .forEach(s -> users.add(new User(s.split(";")[0], s.split(";")[1])));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                String[] s = parse(line);
+                if (s == null || s.length != 2) {
+                    LOG.error("Неверная строка в файле конфигурации.");
+                    continue;
+                }
+                users.add(new User(s[0], s[1]));
+            }
         }
         LOG.info("Чтение файла пользователей прошло успешно.");
         return users;
+    }
+
+    /**
+     * Метод осуществляет разделение строки на подстроки и возвращает их массив.
+     * @param line Строка
+     * @return Массив подстрок
+     */
+    private String[] parse(String line) {
+        if (line.trim().length() == 0 && !line.contains(";")) {
+            return null;
+        }
+        return line.split(";");
     }
 
     /**
