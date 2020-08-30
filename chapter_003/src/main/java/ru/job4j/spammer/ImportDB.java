@@ -70,7 +70,7 @@ public class ImportDB {
      * @return Массив подстрок
      */
     private String[] parse(String line) {
-        if (line.trim().length() == 0 && !line.contains(";")) {
+        if (line.trim().length() == 0) {
             return null;
         }
         return line.split(";");
