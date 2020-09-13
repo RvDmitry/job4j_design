@@ -72,7 +72,7 @@ public class SqlRuParse {
             }
         }
         String footer = doc.selectFirst(".msgFooter").textNodes().get(0).text();
-        String date = footer.replaceAll("[\\[]", "");
+        String date = footer.replace("[\\[]", "");
         post.setTitle(title);
         post.setDescription(join.toString());
         post.setLink(url);
