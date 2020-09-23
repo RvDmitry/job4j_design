@@ -39,10 +39,10 @@ public class User {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Start");
         System.out.println(RamUsageEstimator.sizeOf(new User("Name")));
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             new User("user");
         }
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         System.out.println("Finish");
     }
 }
