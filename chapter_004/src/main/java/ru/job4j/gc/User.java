@@ -36,13 +36,13 @@ public class User {
      * Главный метод программы.
      * @param args Параметры командной строки
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Start");
         System.out.println(RamUsageEstimator.sizeOf(new User("Name")));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             new User("user");
         }
-        System.gc();
+        Thread.sleep(5000);
         System.out.println("Finish");
     }
 }
