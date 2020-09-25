@@ -13,13 +13,19 @@ public class User {
      * Имя пользователя.
      */
     private String name;
+    /**
+     * Фамилия пользователя.
+     */
+    private String surname;
 
     /**
-     * Конструктор инициализирует имя пользователя.
+     * Конструктор инициализирует имя и фамилию пользователя.
      * @param name Имя
+     * @param surname Фамилия
      */
-    public User(String name) {
+    public User(String name, String surname) {
         this.name = name;
+        this.surname = surname;
     }
 
     /**
@@ -38,11 +44,10 @@ public class User {
      */
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Start");
-        System.out.println(RamUsageEstimator.sizeOf(new User("Name")));
+        System.out.println(RamUsageEstimator.sizeOf(new User("Name", "surname")));
         for (int i = 0; i < 1000; i++) {
-            new User("user");
+            new User("user", "surname");
         }
-        Thread.sleep(10000);
         System.out.println("Finish");
     }
 }
