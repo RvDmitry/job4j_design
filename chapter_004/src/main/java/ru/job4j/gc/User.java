@@ -29,6 +29,22 @@ public class User {
     }
 
     /**
+     * Метод возвращает имя пользователя.
+     * @return Имя
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Метод возвращает фамилию пользователя.
+     * @return Фамилия
+     */
+    public String getSurname() {
+        return surname;
+    }
+
+    /**
      * Метод переопределяет метод класса Object с целью демонстрации работы GC.
      * @throws Throwable Исключение
      */
@@ -36,6 +52,15 @@ public class User {
     protected void finalize() throws Throwable {
         super.finalize();
         System.out.println("finalize");
+    }
+
+    /**
+     * Метод формирует из объекта User строку.
+     * @return Строка
+     */
+    @Override
+    public String toString() {
+        return "User{" + "name='" + name + '\'' + ", surname='" + surname + '\'' + '}';
     }
 
     /**
