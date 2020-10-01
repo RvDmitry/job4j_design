@@ -1,0 +1,11 @@
+Predicate<T>
+
+Consumer<T>
+
+Function<T,R>
+
+Supplier<T>
+
+UnaryOperator<T>
+
+BinaryOperator<T>
