@@ -44,15 +44,15 @@ public class SoftCache {
      */
     public String get(String key) {
         SoftReference<String> value = cache.get(key);
-        if (value == null || value.get() == null) {
+        String text = value != null ? value.get() : null;
+        if (text == null) {
             try {
-                String text = loader.load(key);
+                text = loader.load(key);
                 cache.put(key, new SoftReference<>(text));
-                return text;
             } catch (Exception e) {
                 throw new IllegalArgumentException(e.getMessage());
             }
         }
-        return value.get();
+        return text;
     }
 }
