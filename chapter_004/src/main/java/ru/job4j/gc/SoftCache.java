@@ -44,7 +44,7 @@ public class SoftCache {
      */
     public String get(String key) {
         SoftReference<String> value = cache.get(key);
-        if (value == null) {
+        if (value == null || value.get() == null) {
             try {
                 String text = loader.load(key);
                 cache.put(key, new SoftReference<>(text));
