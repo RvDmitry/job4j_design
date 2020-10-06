@@ -2,6 +2,7 @@ package ru.job4j.kiss;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 /**
  * Class MaxMin
@@ -14,39 +15,43 @@ public class MaxMin {
      * Метод используя компаратор возвращает максимальный элемент списка.
      * @param value Список
      * @param comparator Компаратор
-     * @param <T> Тип элемента списка
+     * @param <T> Тип элементов списка
      * @return Максимальный элемент
      */
     public <T> T max(List<T> value, Comparator<T> comparator) {
-        if (value == null || value.size() == 0) {
-            return null;
-        }
-        T max = value.get(0);
-        for (T el : value) {
-            if (comparator.compare(max, el) < 0) {
-                max = el;
-            }
-        }
-        return max;
+        BiPredicate<T, T> biPre = (e1, e2) -> comparator.compare(e1, e2) < 0;
+        return find(value, biPre);
     }
 
     /**
      * Метод используя компаратор возвращает минимальный элемент списка.
      * @param value Список
      * @param comparator Компаратор
-     * @param <T> Тип элемента списка
+     * @param <T> Тип элементов списка
      * @return Минимальный элемент
      */
     public <T> T min(List<T> value, Comparator<T> comparator) {
+        BiPredicate<T, T> biPre = (e1, e2) -> comparator.compare(e1, e2) > 0;
+        return find(value, biPre);
+    }
+
+    /**
+     * Метод находит элемент из переданного списка, согласно переданному условию.
+     * @param value Список
+     * @param biPre Условие поиска элемента
+     * @param <T> Тип элементов списка
+     * @return Найденный элемент списка согласно условию
+     */
+    private <T> T find(List<T> value, BiPredicate<T, T> biPre) {
         if (value == null || value.size() == 0) {
             return null;
         }
-        T min = value.get(0);
+        T elem = value.get(0);
         for (T el : value) {
-            if (comparator.compare(min, el) > 0) {
-                min = el;
+            if (biPre.test(elem, el)) {
+                elem = el;
             }
         }
-        return min;
+        return elem;
     }
 }
