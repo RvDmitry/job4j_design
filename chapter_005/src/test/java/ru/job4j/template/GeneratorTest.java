@@ -17,23 +17,13 @@ import static org.junit.Assert.*;
  */
 public class GeneratorTest {
     /**
-     * Поле задает шаблон для теста.
-     */
-    private final String template = "I am a ${name}, Who are ${subject}? ";
-    /**
-     * Поле создает и инициализирует карту для теста.
-     */
-    private final Map<String, String> args = new HashMap<>();
-    /**
-     * Поле создает и инициализиоует объект-генератор для теста.
-     */
-    private final Generator generator = new GeneratorApp();
-
-    /**
      * Тест проверяет, возвращает ли метод строку по заданному шаблому.
      */
     @Test
     public void produce() {
+        Generator generator = new GeneratorApp();
+        String template = "I am a ${name}, Who are ${subject}? ";
+        Map<String, String> args = new HashMap<>();
         args.put("name", "Petr Arsentev");
         args.put("subject", "you");
         String expected = "I am a Petr Arsentev, Who are you? ";
@@ -45,6 +35,9 @@ public class GeneratorTest {
      */
     @Test(expected = NoSuchElementException.class)
     public void whenMapKeyIsMissing() {
+        Generator generator = new GeneratorApp();
+        String template = "I am a ${name}, Who are ${subject}? ";
+        Map<String, String> args = new HashMap<>();
         args.put("name", "Petr Arsentev");
         generator.produce(template, args);
     }
@@ -54,6 +47,9 @@ public class GeneratorTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void whenMapHasExtraKey() {
+        Generator generator = new GeneratorApp();
+        String template = "I am a ${name}, Who are ${subject}? ";
+        Map<String, String> args = new HashMap<>();
         args.put("name", "Petr Arsentev");
         args.put("subject", "you");
         args.put("age", "35");
