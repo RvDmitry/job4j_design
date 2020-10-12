@@ -1,5 +1,6 @@
 package ru.job4j.template;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import static org.junit.Assert.*;
  * @author Dmitry Razumov
  * @version 1
  */
+@Ignore
 public class GeneratorTest {
     /**
      * Тест проверяет, возвращает ли метод строку по заданному шаблому.
