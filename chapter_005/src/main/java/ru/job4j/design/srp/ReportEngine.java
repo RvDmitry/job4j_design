@@ -1,6 +1,6 @@
 package ru.job4j.design.srp;
 
-import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Class ReportEngine
@@ -10,72 +10,25 @@ import java.util.List;
  */
 public class ReportEngine {
     /**
-     * Поле содержит список сотрудников.
+     * Поле содержит хранилище сотрудников.
      */
-    private List<Employee> employees;
+    private final Store store;
 
     /**
-     * Конструктор инициализирует список сотрудников.
-     * @param employees Список сотрудников.
+     * Конструктор инициализирует хранилище сотрудников.
+     * @param store Ссылка на хранилище.
      */
-    public ReportEngine(List<Employee> employees) {
-        this.employees = employees;
+    public ReportEngine(Store store) {
+        this.store = store;
     }
 
     /**
-     * Метод создает отчет с данными о сотрудниках в виде строки текста.
-     * @return Строка с данными.
+     * Метод возвращает отчет о сотрудниках в виде строки.
+     * @param report Объект типа ReportGenerator, определяет форму и вид отчета.
+     * @param filter Условие согласно которому осуществляется поиск сотрудников в хранилище.
+     * @return Отчет в виде строки.
      */
-    public String textGenerate() {
-        StringBuilder text = new StringBuilder()
-                .append("Name; Hired; Fired; Salary;")
-                .append(System.lineSeparator());
-        for (Employee employee : employees) {
-            text.append(employee.getName()).append("; ")
-                    .append(employee.getHired()).append("; ")
-                    .append(employee.getFired()).append("; ")
-                    .append(employee.getSalary()).append(";")
-                    .append(System.lineSeparator());
-        }
-        return text.toString();
-    }
-
-    /**
-     * Метод создает отчет с данными о сотрудниках в виде текста в формате HTML.
-     * @return Строка в формате HTML.
-     */
-    public String htmlGenerate() {
-        StringBuilder text = new StringBuilder()
-                .append("<!DOCTYPE html>").append(System.lineSeparator())
-                .append("<html>").append(System.lineSeparator())
-                .append("<body>").append(System.lineSeparator())
-                .append("<p>Name; Hired; Fired; Salary;</p>").append(System.lineSeparator());
-        for (Employee employee : employees) {
-            text.append("<p>")
-                    .append(employee.getName()).append("; ")
-                    .append(employee.getHired()).append("; ")
-                    .append(employee.getFired()).append("; ")
-                    .append(employee.getSalary()).append(";")
-                    .append("<p>").append(System.lineSeparator());
-        }
-        text.append("</body>").append(System.lineSeparator())
-                .append("</html>").append(System.lineSeparator());
-        return text.toString();
-    }
-
-    /**
-     * Метод создает неполный отчет о сотрудниках в виде строки текста.
-     * @return Строка с данными.
-     */
-    public String hrGenerate() {
-        StringBuilder text = new StringBuilder()
-                .append("Name; Salary;")
-                .append(System.lineSeparator());
-        for (Employee employee : employees) {
-            text.append(employee.getName()).append("; ")
-                    .append(employee.getSalary()).append(";")
-                    .append(System.lineSeparator());
-        }
-        return text.toString();
+    public String generate(ReportGenerator report, Predicate<Employee> filter) {
+        return report.generate(store.findBy(filter));
     }
 }
