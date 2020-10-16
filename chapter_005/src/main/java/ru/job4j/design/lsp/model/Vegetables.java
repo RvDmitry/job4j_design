@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 /**
  * Class Vegetables
- * Класс хаарктеризует овощи.
+ * Класс характеризует овощи.
  *
  * @author Dmitry Razumov
  * @version 1
