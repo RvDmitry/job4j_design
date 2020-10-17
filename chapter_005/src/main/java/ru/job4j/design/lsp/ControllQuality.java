@@ -1,30 +1,29 @@
 package ru.job4j.design.lsp;
 
 import ru.job4j.design.lsp.model.Food;
-import ru.job4j.design.lsp.strategy.FoodStrategy;
+import ru.job4j.design.lsp.store.Store;
 
 import java.util.List;
 
 /**
  * Class ControllQuality
- * Класс распределяет продукты по местам хранения либо утилизирует их,
- * в зависимости от условий передаваемых в класс стратегий.
+ * Класс распределяет продукты по местам хранения либо утилизирует их.
  *
  * @author Dmitry Razumov
  * @version 1
  */
 public class ControllQuality {
     /**
-     * Список стратегий.
+     * Список хранилищ.
      */
-    private final List<FoodStrategy> strategies;
+    private final List<Store> stores;
 
     /**
-     * Конструктор инициализирует список стратегий.
-     * @param strategies Список стратегий.
+     * Конструктор инициализирует список хранилищ.
+     * @param stores Список хранилищ.
      */
-    public ControllQuality(List<FoodStrategy> strategies) {
-        this.strategies = strategies;
+    public ControllQuality(List<Store> stores) {
+        this.stores = stores;
     }
 
     /**
@@ -33,7 +32,7 @@ public class ControllQuality {
      */
     public void sort(List<Food> foods) {
         for (Food food : foods) {
-            for (var st : strategies) {
+            for (var st : stores) {
                 if (st.accept(food)) {
                     break;
                 }

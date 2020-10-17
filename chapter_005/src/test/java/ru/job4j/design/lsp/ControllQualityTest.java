@@ -5,9 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.design.lsp.model.*;
 import ru.job4j.design.lsp.store.Shop;
+import ru.job4j.design.lsp.store.Store;
 import ru.job4j.design.lsp.store.Trash;
 import ru.job4j.design.lsp.store.Warehouse;
-import ru.job4j.design.lsp.strategy.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -24,15 +24,14 @@ import static org.junit.Assert.*;
  */
 public class ControllQualityTest {
 
-    private List<FoodStrategy> strategies;
+    private List<Store> stores;
 
     @Before
     public void init() {
-        strategies = Arrays.asList(
-                new WarehouseStrategy(),
-                new ShopStrategy(),
-                new DisscountStrategy(),
-                new TrashStrategy()
+        stores = Arrays.asList(
+                new Warehouse(),
+                new Shop(),
+                new Trash()
         );
     }
 
@@ -46,7 +45,7 @@ public class ControllQualityTest {
         LocalDate creation = LocalDate.now().minusDays(2);
         LocalDate expiration = LocalDate.now().plusDays(8);
         List<Food> foods = Arrays.asList(new Dairy("Молоко", creation, expiration, 30));
-        ControllQuality cq = new ControllQuality(strategies);
+        ControllQuality cq = new ControllQuality(stores);
         cq.sort(foods);
         assertThat(new Warehouse().get(), is(foods));
     }
@@ -56,7 +55,7 @@ public class ControllQualityTest {
         LocalDate creation = LocalDate.now().minusDays(5);
         LocalDate expiration = LocalDate.now().plusDays(5);
         List<Food> foods = Arrays.asList(new Fruit("Слива", creation, expiration, 30));
-        ControllQuality cq = new ControllQuality(strategies);
+        ControllQuality cq = new ControllQuality(stores);
         cq.sort(foods);
         assertThat(new Shop().get(), is(foods));
     }
@@ -66,7 +65,7 @@ public class ControllQualityTest {
         LocalDate creation = LocalDate.now().minusDays(4);
         LocalDate expiration = LocalDate.now().minusDays(1);
         List<Food> foods = Arrays.asList(new Bakery("Хлеб", creation, expiration, 30));
-        ControllQuality cq = new ControllQuality(strategies);
+        ControllQuality cq = new ControllQuality(stores);
         cq.sort(foods);
         assertThat(new Trash().get(), is(foods));
     }
@@ -76,7 +75,7 @@ public class ControllQualityTest {
         LocalDate creation = LocalDate.now().minusDays(8);
         LocalDate expiration = LocalDate.now().plusDays(2);
         Food food = new Vegetables("Томат", creation, expiration, 30);
-        ControllQuality cq = new ControllQuality(strategies);
+        ControllQuality cq = new ControllQuality(stores);
         cq.sort(Arrays.asList(food));
         assertThat(new Shop().get().get(0).getDisscount(), is(food.getDisscount()));
     }
