@@ -1,15 +1,15 @@
-package ru.job4j.design.lsp.model;
+package ru.job4j.design.lsp.storage.model;
 
 import java.time.LocalDate;
 
 /**
- * Class Fruit
- * Класс характеризует фрукты.
+ * Class BreadFood
+ * Класс характеризует хлебобулочные изделия.
  *
  * @author Dmitry Razumov
  * @version 1
  */
-public class Fruit extends Food {
+public class Bakery extends Food {
 
     /**
      * Конструктор инициализирует характеристики продукта.
@@ -19,7 +19,7 @@ public class Fruit extends Food {
      * @param expaireDate Окончание срока годности.
      * @param price       Стоимость.
      */
-    public Fruit(String name, LocalDate createDate, LocalDate expaireDate, double price) {
+    public Bakery(String name, LocalDate createDate, LocalDate expaireDate, double price) {
         super(name, createDate, expaireDate, price);
     }
 }

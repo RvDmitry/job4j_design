@@ -1,13 +1,13 @@
-package ru.job4j.design.lsp;
+package ru.job4j.design.lsp.storage;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.design.lsp.model.*;
-import ru.job4j.design.lsp.store.Shop;
-import ru.job4j.design.lsp.store.Store;
-import ru.job4j.design.lsp.store.Trash;
-import ru.job4j.design.lsp.store.Warehouse;
+import ru.job4j.design.lsp.storage.model.*;
+import ru.job4j.design.lsp.storage.store.Shop;
+import ru.job4j.design.lsp.storage.store.Store;
+import ru.job4j.design.lsp.storage.store.Trash;
+import ru.job4j.design.lsp.storage.store.Warehouse;
 
 import java.time.LocalDate;
 import java.util.Arrays;
