@@ -35,6 +35,17 @@ public class CarParkingTest {
     }
 
     /**
+     * Метод проверяет, что нельзя поставить одну и ту же машину на парковку несколько раз.
+     */
+    @Test
+    public void whenCarParkRepeat() {
+        Car car = new Car("a123bc", 1);
+        Parking parking = new CarParking(5, 5);
+        assertTrue(parking.park(car));
+        assertFalse(parking.park(car));
+    }
+
+    /**
      * Метод тестирует установку грузовой машины на парковку для грузовых машин в случае успеха.
      */
     @Test
