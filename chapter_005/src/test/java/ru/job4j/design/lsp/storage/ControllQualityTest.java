@@ -79,4 +79,15 @@ public class ControllQualityTest {
         cq.sort(Arrays.asList(food));
         assertThat(new Shop().get().get(0).getDisscount(), is(food.getDisscount()));
     }
+
+    @Test
+    public void whenResort() {
+        LocalDate creation = LocalDate.now().minusDays(1);
+        LocalDate expiration = LocalDate.now().plusDays(10);
+        Food milk = new Dairy("Молоко", creation, expiration, 50);
+        ControllQuality cq = new ControllQuality(stores);
+        cq.sort(Arrays.asList(milk));
+        cq.resort();
+        assertThat(new Warehouse().get().size(), is(1));
+    }
 }

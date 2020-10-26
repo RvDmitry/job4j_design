@@ -3,6 +3,7 @@ package ru.job4j.design.lsp.storage;
 import ru.job4j.design.lsp.storage.model.Food;
 import ru.job4j.design.lsp.storage.store.Store;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,5 +39,17 @@ public class ControllQuality {
                 }
             }
         }
+    }
+
+    /**
+     * Метод осуществляет перераспределение продуктов из хранилищ.
+     */
+    public void resort() {
+        List<Food> foods = new ArrayList<>();
+        for (Store store : stores) {
+            foods.addAll(store.get());
+            store.delete();
+        }
+        sort(foods);
     }
 }
