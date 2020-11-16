@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 /**
  * Class XORules
- *
+ * Класс определяет победителя.
  * @author Dmitry Razumov
  * @version 1
  */
