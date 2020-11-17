@@ -26,6 +26,8 @@ public class ThreadState {
                 || second.getState() != Thread.State.TERMINATED) {
             System.out.print("");
         }
+        System.out.println("First Thread is " + first.getState());
+        System.out.println("Second Thread is " + second.getState());
         System.out.println("Работа завершена.");
     }
 }
