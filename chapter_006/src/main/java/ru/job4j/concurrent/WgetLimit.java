@@ -13,6 +13,31 @@ import java.net.URL;
  */
 public class WgetLimit {
     /**
+     * Метод осуществляет скачивание файла из интернета с заданной скоростью.
+     * @param url Адрес по которому находится файл.
+     * @param limit Скорость скачивания.
+     */
+    public void download(String url, int limit) {
+        try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
+             FileOutputStream fileOutputStream = new FileOutputStream("file.txt")) {
+            byte[] dataBuffer = new byte[100];
+            int bytesRead;
+            long startTime = System.currentTimeMillis();
+            while ((bytesRead = in.read(dataBuffer, 0, 100)) != -1) {
+                long time = System.currentTimeMillis() - startTime;
+                long expected = 1000 * bytesRead / limit;
+                if (time < expected) {
+                    Thread.sleep(expected - time);
+                }
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+                startTime = System.currentTimeMillis();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Главный метод программы.
      * @param args Параметры командной строки.
      */
@@ -21,16 +46,6 @@ public class WgetLimit {
         if (!arg.valid()) {
             throw new IllegalArgumentException("Неверно заданы параметры.");
         }
-        try (BufferedInputStream in = new BufferedInputStream(new URL(arg.url()).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream("file.txt")) {
-            byte[] dataBuffer = new byte[arg.limit()];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuffer, 0, arg.limit())) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
-                Thread.sleep(1000);
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        new WgetLimit().download(arg.url(), arg.limit());
     }
 }
