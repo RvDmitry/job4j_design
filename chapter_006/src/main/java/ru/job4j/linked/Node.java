@@ -1,7 +1,6 @@
 package ru.job4j.linked;
 
 import net.jcip.annotations.Immutable;
-import net.jcip.annotations.NotThreadSafe;
 
 /**
  * Class Node
@@ -10,7 +9,6 @@ import net.jcip.annotations.NotThreadSafe;
  * @version 1
  */
 @Immutable
-@NotThreadSafe
 public final class Node<T> {
     /**
      * Поле содержит ссылку на следующий элемент.
