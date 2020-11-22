@@ -60,10 +60,7 @@ public class UserStore implements Store, Transfer {
     public synchronized boolean transfer(int fromId, int toId, int amount) {
         User first = users.get(fromId);
         User second = users.get(toId);
-        if (first == null || second == null) {
-            return false;
-        }
-        if (first.getAmount() < amount) {
+        if (first == null || first.getAmount() < amount || second == null) {
             return false;
         }
         first.setAmount(first.getAmount() - amount);
