@@ -1,5 +1,7 @@
 package ru.job4j.io;
 
+import net.jcip.annotations.ThreadSafe;
+
 import java.io.*;
 
 /**
@@ -8,26 +10,19 @@ import java.io.*;
  * @author Dmitry Razumov
  * @version 1
  */
+@ThreadSafe
 public class ParseFile {
     /**
      * Поле содержит ссылку на файл.
      */
-    private volatile File file;
+    private final File file;
 
     /**
-     * Метод задает ссылку на файл.
-     * @param f Файл.
+     * Конструктор инициализирует файл.
+     * @param file Файл.
      */
-    public synchronized void setFile(File f) {
-        file = f;
-    }
-
-    /**
-     * Метод возвращает ссылку на файл.
-     * @return Файл.
-     */
-    public synchronized File getFile() {
-        return file;
+    public ParseFile(File file) {
+        this.file = file;
     }
 
     /**
@@ -62,17 +57,5 @@ public class ParseFile {
             }
         }
         return builder.toString();
-    }
-
-    /**
-     * Метод сохраняет строку в файл.
-     * @param content Строка.
-     * @throws IOException Исключение.
-     */
-    public synchronized void saveContent(String content) throws IOException {
-        try (OutputStream o = new BufferedOutputStream(new FileOutputStream(file))) {
-            byte[] buffer = content.getBytes();
-            o.write(buffer);
-        }
     }
 }
