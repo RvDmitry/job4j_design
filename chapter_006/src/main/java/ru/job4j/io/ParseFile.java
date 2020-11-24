@@ -30,7 +30,7 @@ public class ParseFile {
      * @return Текст из файла.
      * @throws IOException Исключение.
      */
-    public synchronized String getContent() throws IOException {
+    public String getContent() throws IOException {
         StringBuilder builder = new StringBuilder();
         try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
             int data;
@@ -46,7 +46,7 @@ public class ParseFile {
      * @return Текст из файла.
      * @throws IOException Исключение.
      */
-    public synchronized String getContentWithoutUnicode() throws IOException {
+    public String getContentWithoutUnicode() throws IOException {
         StringBuilder builder = new StringBuilder();
         try (InputStream i = new FileInputStream(file)) {
             int data;

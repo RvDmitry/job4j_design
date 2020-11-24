@@ -30,7 +30,7 @@ public class SaveFile {
      * @param content Строка.
      * @throws IOException Исключение.
      */
-    public synchronized void saveContent(String content) throws IOException {
+    public void saveContent(String content) throws IOException {
         try (OutputStream o = new BufferedOutputStream(new FileOutputStream(file))) {
             byte[] buffer = content.getBytes();
             o.write(buffer);
