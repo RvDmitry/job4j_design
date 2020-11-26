@@ -1,9 +1,9 @@
 package ru.job4j.io;
 
-import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.io.*;
+import java.util.function.Predicate;
 
 /**
  * Class ParseFile
@@ -12,28 +12,54 @@ import java.io.*;
  * @version 1
  */
 @ThreadSafe
-public class ParseFile implements FileContent {
+public class ParseFile {
     /**
-     * Стратегия с помощью которой считывается файл.
+     * Поле содержит ссылку на файл.
      */
-    @GuardedBy("this")
-    private volatile FileContent content;
+    private final File file;
 
     /**
-     * Метод задает стратегию считывание файла.
-     * @param content Стратегия.
+     * Конструктор инициализирует файл.
+     * @param file Файл.
      */
-    public synchronized void setContent(FileContent content) {
-        this.content = content;
+    public ParseFile(File file) {
+        this.file = file;
     }
 
     /**
-     * Метод считывает текст из файла с помощью заданной стратегии.
-     * @param file Файл.
-     * @return Содержимое файла в виде строки.
+     * Метод считывает текст из файла и возвращает его в виде строки.
+     * @return Текст из файла.
      * @throws IOException Исключение.
      */
-    public String getContent(File file) throws IOException {
-        return content.getContent(file);
+    public String getContent() throws IOException {
+        return content(data -> true);
+    }
+
+    /**
+     * Метод считывает текст из файла не в Unicode и возвращает его в виде строки.
+     * @return Текст из файла.
+     * @throws IOException Исключение.
+     */
+    public String getContentWithoutUnicode() throws IOException {
+        return content(data -> data < 0x80);
+    }
+
+    /**
+     * Метод вычитывает текст из файла и возвращает его ввиде строки.
+     * @param filter Фильтр, согласно которому считывается текст.
+     * @return Текст из файла.
+     * @throws IOException Исключение.
+     */
+    private String content(Predicate<Integer> filter) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        try (InputStream i = new FileInputStream(file)) {
+            int data;
+            while ((data = i.read()) != -1) {
+                if (filter.test(data)) {
+                    builder.append((char) data);
+                }
+            }
+        }
+        return builder.toString();
     }
 }
