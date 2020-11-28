@@ -1,4 +1,4 @@
-package ru.job4j.multithreading;
+package ru.job4j.multithreading.synchronize;
 
 import org.junit.Test;
 
