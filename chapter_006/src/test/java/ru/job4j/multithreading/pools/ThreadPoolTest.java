@@ -1,4 +1,4 @@
-package ru.job4j.multithreading.queue;
+package ru.job4j.multithreading.pools;
 
 import org.junit.Test;
 

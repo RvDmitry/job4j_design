@@ -1,4 +1,6 @@
-package ru.job4j.multithreading.queue;
+package ru.job4j.multithreading.pools;
+
+import ru.job4j.multithreading.queue.SimpleBlockingQueue;
 
 /**
  * Class WorkingThread

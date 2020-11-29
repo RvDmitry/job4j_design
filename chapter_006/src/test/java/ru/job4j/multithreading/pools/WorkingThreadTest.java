@@ -1,6 +1,7 @@
-package ru.job4j.multithreading.queue;
+package ru.job4j.multithreading.pools;
 
 import org.junit.Test;
+import ru.job4j.multithreading.queue.SimpleBlockingQueue;
 
 import static org.junit.Assert.*;
 
