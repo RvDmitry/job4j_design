@@ -26,9 +26,9 @@ public class ThreadPool {
     /**
      * Конструктор создает пул потоков.
      * @param numberOfTasks Количество задач которые может содержать очередь.
-     * @param numberOfThreads Количество потов содержащихся в пуле.
      */
-    public ThreadPool(int numberOfTasks, int numberOfThreads) {
+    public ThreadPool(int numberOfTasks) {
+        int numberOfThreads = Runtime.getRuntime().availableProcessors();
         tasks = new SimpleBlockingQueue<>(numberOfTasks);
         for (int i = 0; i < numberOfThreads; i++) {
             threads.add(new WorkingThread(tasks));

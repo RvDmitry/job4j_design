@@ -19,7 +19,7 @@ public class ThreadPoolTest {
     @Test
     public void whenThreadPoolWorking() throws InterruptedException {
         CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
-        ThreadPool threadPool = new ThreadPool(10, 2);
+        ThreadPool threadPool = new ThreadPool(10);
         for (int i = 0; i < 10; i++) {
             int task = i;
             threadPool.work(() -> {
