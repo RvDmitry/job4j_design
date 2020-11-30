@@ -1,7 +1,5 @@
 package ru.job4j.multithreading.cas;
 
-import net.jcip.annotations.ThreadSafe;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
@@ -11,7 +9,6 @@ import java.util.function.BiFunction;
  * @author Dmitry Razumov
  * @version 1
  */
-@ThreadSafe
 public class CASCache implements Cache {
     /**
      * Коллекция хранит модели.
@@ -24,7 +21,7 @@ public class CASCache implements Cache {
      * @return true, если модель успешно добавлена в кеш, иначе false.
      */
     @Override
-    public synchronized boolean add(Base model) {
+    public boolean add(Base model) {
         return bases.putIfAbsent(model.getId(), model) == null;
     }
 
@@ -34,7 +31,7 @@ public class CASCache implements Cache {
      * @return true, если модель обновлена в кеше успешно, иначе false.
      */
     @Override
-    public synchronized boolean update(Base model) throws OptimisticException {
+    public boolean update(Base model) throws OptimisticException {
         BiFunction<Integer, Base, Base> biFun = (key, value) -> {
             int version = model.getVersion();
             if (value.getVersion() != version) {
@@ -53,7 +50,7 @@ public class CASCache implements Cache {
      * @return true, если модель успешно удалена из кеша, иначе false.
      */
     @Override
-    public synchronized boolean delete(Base model) {
+    public boolean delete(Base model) {
         return bases.remove(model.getId()) != null;
     }
 
