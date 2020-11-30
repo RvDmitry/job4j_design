@@ -43,14 +43,14 @@ public class ThreadPool {
      * @param job Задача.
      * @throws InterruptedException Исключение.
      */
-    public synchronized void work(Runnable job) throws InterruptedException {
+    public void work(Runnable job) throws InterruptedException {
         tasks.offer(job);
     }
 
     /**
      * Метод завершает работу потоков из пула.
      */
-    public synchronized void shutdown() {
+    public void shutdown() {
         for (var thread : threads) {
             thread.interrupt();
         }
@@ -59,7 +59,7 @@ public class ThreadPool {
     /**
      * Метод заставляет пул потоков работать пока все задачи из очереди не будут выполнены.
      */
-    public synchronized void waitUntilAllTasksFinished() {
+    public void waitUntilAllTasksFinished() {
         while (!tasks.isEmpty()) {
             try {
                 Thread.sleep(1);
