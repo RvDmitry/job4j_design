@@ -7,7 +7,11 @@ package ru.job4j.multithreading.queue;
  * @version 1
  */
 public class ParallelSearch {
-
+    /**
+     * Главный метод программы.
+     * @param args Параметры командной строки.
+     * @throws InterruptedException Исключение.
+     */
     public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
         Thread consumer = new Thread(
